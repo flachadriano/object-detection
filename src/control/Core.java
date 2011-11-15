@@ -2,9 +2,8 @@ package control;
 
 import javax.media.jai.PlanarImage;
 
-import view.GUI;
-
 import model.EdgeDetection;
+import view.GUI;
 
 public class Core {
 
@@ -14,8 +13,7 @@ public class Core {
 		
 		PlanarImage edgeDetection = EdgeDetection.execute("images/moedas-espanha.jpg");
 		
-		GUI gUI = new GUI();
-		gUI.setImage(edgeDetection);
+		new GUI(edgeDetection);
 	}
 	
 }

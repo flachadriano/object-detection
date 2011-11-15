@@ -44,7 +44,7 @@ public class EdgeDetection {
 
 		// binarize
 		ParameterBlock pb = new ParameterBlock();
-		pb.add(new Double(2));
+		pb.add(new Double(128));
 		pb.addSource(image);
 		return JAI.create("binarize", pb);
 	}
