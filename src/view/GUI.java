@@ -6,7 +6,6 @@ import javax.media.jai.PlanarImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
@@ -17,11 +16,9 @@ public class GUI extends JFrame {
 		setSize(800, 600);
 		setLayout(new BorderLayout());
 
-		JPanel jPanel = new JPanel(new BorderLayout());
 		ImageIcon imageIcon = new ImageIcon(image.getAsBufferedImage());
 		JLabel imageLabel = new JLabel(imageIcon);
-		jPanel.add(BorderLayout.CENTER, imageLabel);
-		add(BorderLayout.CENTER, jPanel);
+		add(BorderLayout.CENTER, imageLabel);
 
 		setVisible(true);
 	}
