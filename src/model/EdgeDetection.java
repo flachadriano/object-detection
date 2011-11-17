@@ -2,31 +2,27 @@ package model;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.KernelJAI;
 import javax.media.jai.PlanarImage;
 
 public class EdgeDetection {
 
-	public static PlanarImage execute(String imagePath) throws Exception {
-		PlanarImage erode = erode(imagePath);
+	public static PlanarImage execute(BufferedImage image) throws Exception {
+		PlanarImage erode = erode(image);
 		PlanarImage binarization = binarize(erode);
 		return binarization;
 	}
 
-	private static PlanarImage erode(String imagePath) throws Exception {
+	private static PlanarImage erode(BufferedImage image) throws Exception {
 		float[] erode = new float[] //
 		{ 0, 1, 0, //
 				1, 1, 1, //
 				0, 1, 0 };
 
 		ParameterBlock pb = new ParameterBlock();
-
-		File file = new File(imagePath);
-		BufferedImage image = ImageIO.read(file);
+		
 		pb.addSource(image);
 
 		KernelJAI kernel = new KernelJAI(3, 3, erode);
