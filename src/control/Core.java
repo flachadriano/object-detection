@@ -16,7 +16,7 @@ public class Core {
 		System.setProperty("com.sun.media.jai.disableMediaLib", "true");
 		System.setProperty("com.sun.media.imageio.disableCodecLib", "true");
 
-		File file = new File("images/ball.jpeg");
+		File file = new File("images/8ball.jpg");
 		BufferedImage imageOriginal = ImageIO.read(file);
 
 		PlanarImage edgeDetection = EdgeDetection.execute(imageOriginal);

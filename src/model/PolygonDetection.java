@@ -26,7 +26,7 @@ public class PolygonDetection {
 
 		// ignore a pixel of border
 		for (int y = 1; y < imageBuffer.getHeight() - 1; y++) {
-			for (int x = 1; x < imageBuffer.getWidth() - 1; x++) {
+			for (int x = 5; x < imageBuffer.getWidth() - 1; x++) {
 
 				raster.getPixel(x, y, pixel);
 				if (pixel[0] == 0) {
