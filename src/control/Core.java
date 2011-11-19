@@ -16,7 +16,7 @@ public class Core {
 		System.setProperty("com.sun.media.jai.disableMediaLib", "true");
 		System.setProperty("com.sun.media.imageio.disableCodecLib", "true");
 
-		File file = new File("images/moedas-espanha.jpg");
+		File file = new File("images/ball.jpeg");
 		BufferedImage imageOriginal = ImageIO.read(file);
 
 		PlanarImage edgeDetection = EdgeDetection.execute(imageOriginal);
