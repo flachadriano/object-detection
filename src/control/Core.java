@@ -6,8 +6,8 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
 
+import model.Binarization;
 import model.EdgeDetection;
-import model.PolygonDetection;
 import view.GUI;
 
 public class Core {
@@ -19,10 +19,12 @@ public class Core {
 		File file = new File("images/8ball.jpg");
 		BufferedImage imageOriginal = ImageIO.read(file);
 
-		PlanarImage edgeDetection = EdgeDetection.execute(imageOriginal);
-		PolygonDetection.execute(edgeDetection, imageOriginal);
+		PlanarImage binarization = Binarization.execute(imageOriginal);
+		PlanarImage edge = EdgeDetection.execute(binarization);
+		// BufferedImage polygon = PolygonDetection.execute(edge,
+		// imageOriginal);
 
-		new GUI(imageOriginal);
+		new GUI(edge.getAsBufferedImage());
 	}
 
 }
