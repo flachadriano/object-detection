@@ -8,6 +8,8 @@ import javax.media.jai.PlanarImage;
 
 import model.Binarization;
 import model.EdgeDetection;
+import model.HoughTransform;
+import model.HoughTransformReturn;
 import view.GUI;
 
 public class Core {
@@ -21,10 +23,10 @@ public class Core {
 
 		PlanarImage binarization = Binarization.execute(imageOriginal);
 		PlanarImage edge = EdgeDetection.execute(binarization);
-		// BufferedImage polygon = PolygonDetection.execute(edge,
-		// imageOriginal);
+		
+		HoughTransformReturn ht = HoughTransform.execute(edge.getAsBufferedImage());
 
-		new GUI(edge.getAsBufferedImage());
+		new GUI(imageOriginal, ht);
 	}
-
+	
 }
