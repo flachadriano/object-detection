@@ -9,20 +9,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import control.Core;
+import control.ObjectDetection;
 
-import model.CoreReturn;
+import model.ObjectDetectionReturn;
 import model.HoughTransformReturn;
 
 @SuppressWarnings("serial")
 public class Panel extends JPanel {
 
 	public Panel(String fileName) throws Exception {
-		CoreReturn coreReturn = Core.execute(fileName);
+		ObjectDetectionReturn objectDetectionReturn = ObjectDetection.execute(fileName);
 
-		BufferedImage original = coreReturn.getImages()[2];
-		HoughTransformReturn ht = coreReturn.getHoughTransformReturn();
-		BufferedImage[] images = coreReturn.getImages();
+		BufferedImage original = objectDetectionReturn.getImages()[2];
+		HoughTransformReturn ht = objectDetectionReturn.getHoughTransformReturn();
+		BufferedImage[] images = objectDetectionReturn.getImages();
 
 		Graphics2D ga = (Graphics2D) original.getGraphics();
 		ga.setPaint(Color.BLUE);

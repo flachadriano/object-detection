@@ -10,7 +10,7 @@ import javax.media.jai.PlanarImage;
 public class Binarization {
 
 	public static final Double LIMIAR = 150D;
-	
+
 	public static PlanarImage execute(BufferedImage image) throws Exception {
 		PlanarImage erode = erode(image);
 		PlanarImage binarization = binarize(erode);
@@ -18,15 +18,14 @@ public class Binarization {
 	}
 
 	private static PlanarImage erode(BufferedImage image) throws Exception {
+		ParameterBlock pb = new ParameterBlock();
+
+		pb.addSource(image);
+
 		float[] erode = new float[] //
 		{ 0, 1, 0, //
 				1, 1, 1, //
 				0, 1, 0 };
-
-		ParameterBlock pb = new ParameterBlock();
-		
-		pb.addSource(image);
-
 		KernelJAI kernel = new KernelJAI(3, 3, erode);
 		pb.add(kernel);
 
