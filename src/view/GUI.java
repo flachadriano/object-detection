@@ -1,59 +1,40 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import model.HoughTransformReturn;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 
-	public GUI(BufferedImage image, HoughTransformReturn ht) {
+	public GUI() throws Exception {
 		setTitle("Detecção de objetos - Adriano Flach de Araujo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLayout(new BorderLayout());
+		setLocationRelativeTo(null);
+		setExtendedState(MAXIMIZED_BOTH);
 
-		Graphics2D ga = (Graphics2D) image.getGraphics();
-		ga.setPaint(Color.RED);
-		Point[] ps = ht.getPoints();
+		String[] fileNames = new String[] { "images/tennis.jpg",
+				"images/8ball.jpg", "images/basketball.jpg" };
 
-		// draw points at image
-		Point p = null;
-		for (int i = 0; i < 5; i++) {
-			if (i == 4)
-				p = ht.getCenter();
-			else
-				p = ps[i];
-			ga.drawOval((int) p.getX(), (int) p.getY(), 1, 1);
-			ga.drawOval((int) p.getX(), (int) p.getY(), 2, 2);
-			ga.drawOval((int) p.getX(), (int) p.getY(), 3, 3);
-			ga.drawOval((int) p.getX(), (int) p.getY(), 4, 4);
+		JPanel global = new JPanel();
+		JScrollPane scroll = new JScrollPane(global);
+		add(BorderLayout.CENTER, scroll);
+		
+		JPanel jPanel;
+		for (int i = 0; i < fileNames.length; i++) {
+			jPanel = new Panel(fileNames[i]);
+			global.add(jPanel);
 		}
 
-		// draw lines between the points
-		ga.drawLine((int) ps[0].getX(), (int) ps[0].getY(), //
-				(int) ps[1].getX(), (int) ps[1].getY());
-
-		ga.drawLine((int) ps[2].getX(), (int) ps[2].getY(), //
-				(int) ps[3].getX(), (int) ps[3].getY());
-
-		// draw the detected object
-		image.getGraphics().drawOval((int) ht.getCenter().getX(), 20, 20, 20);
-
-		// renderize image
-		ImageIcon imageIcon = new ImageIcon(image);
-		JLabel imageLabel = new JLabel(imageIcon);
-		add(BorderLayout.CENTER, imageLabel);
-
 		setVisible(true);
+	}
+
+	public static void main(String[] args) throws Exception {
+		new GUI();
 	}
 
 }

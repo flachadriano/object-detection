@@ -7,26 +7,33 @@ import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
 
 import model.Binarization;
+import model.CoreReturn;
 import model.EdgeDetection;
 import model.HoughTransform;
 import model.HoughTransformReturn;
-import view.GUI;
 
 public class Core {
 
-	public static void main(String[] args) throws Exception {
+	public static CoreReturn execute(String fileName) throws Exception {
 		System.setProperty("com.sun.media.jai.disableMediaLib", "true");
 		System.setProperty("com.sun.media.imageio.disableCodecLib", "true");
 
-		File file = new File("images/8ball.jpg");
+		File file = new File(fileName);
 		BufferedImage imageOriginal = ImageIO.read(file);
 
 		PlanarImage binarization = Binarization.execute(imageOriginal);
 		PlanarImage edge = EdgeDetection.execute(binarization);
-		
-		HoughTransformReturn ht = HoughTransform.execute(edge.getAsBufferedImage());
 
-		new GUI(imageOriginal, ht);
+		HoughTransformReturn ht = HoughTransform.execute(edge
+				.getAsBufferedImage());
+
+		CoreReturn coreReturn = new CoreReturn();
+		coreReturn.setHoughTransformReturn(ht);
+		coreReturn.setImages(new BufferedImage[] {
+				binarization.getAsBufferedImage(), edge.getAsBufferedImage(),
+				imageOriginal });
+
+		return coreReturn;
 	}
-	
+
 }

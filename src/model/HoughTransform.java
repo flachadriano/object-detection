@@ -13,13 +13,12 @@ public class HoughTransform {
 		Point[] points = getFourthAleatoryPoints(image);
 		Point[] ordered = getOrderedPoints(points);
 
-		Point center = getCenter(ordered);
-		double distance = getDistance(center, ordered[0]);
+		Object[] center = getCenter(ordered);
 
 		HoughTransformReturn htReturn = new HoughTransformReturn();
 		htReturn.setPoints(points);
-		htReturn.setCenter(center);
-		htReturn.setDistance(distance);
+		htReturn.setCenter((Point) center[0]);
+		htReturn.setRadius((Double) center[1]);
 
 		return htReturn;
 	}
@@ -57,7 +56,6 @@ public class HoughTransform {
 
 		// obtain 4 aleatory points
 		double midY = (yMax - yMin) / 2;
-		System.out.println(midY);
 		Random r = new Random();
 		int[] ys = new int[4];
 		for (int i = 0; i < 4; i++) {
@@ -133,7 +131,7 @@ public class HoughTransform {
 		return result.toArray(new Point[4]);
 	}
 
-	private static Point getCenter(Point[] points) {
+	private static Object[] getCenter(Point[] points) {
 		double[] top = getPerpendicular(points[0], points[1]);
 		double a1 = top[0];
 		double b1 = top[1];
@@ -147,26 +145,41 @@ public class HoughTransform {
 		double xc = 0;
 		double yc = 0;
 
-		// XC
-		// =
-		// {(-C1 -C2).[B1.(A1 +A2) -A1.(B1 +B2)]} - [(B1 +B2).(A1.C2 -A2.C1)]
-		// ------------------------------------------------------------------
-		// B1.(A1 + A2) - A1.(B1 + B2)
-		xc = ((-c1 - c2) * (b1 * (a1 + a2) - a1 * (b1 + b2)))
-				- ((b1 + b2) * (a1 * c2 - a2 * c1));
-		xc /= (b1 * (a1 + a2) - a1 * (b1 + b2));
+		double value_x = 0;
+		double div_x = 0;
+		double value_y = 0;
+		double div_y = 0;
+
+		double x1 = 0;
+		double y1 = 0;
+		double radius = 0;
 
 		// YC
 		// =
 		// A1.C2 - A2.C1
 		// -------------
 		// B1.(A1 + A2) - A1.(B1 + B2)
-		yc = a1 * c2 - a2 * c1;
-		yc /= (b1 * (a1 + a2) - a1 * (b1 + b2));
+		value_y = ((a1 * c2) - (a2 * c1));
+		div_y = ((b1 * (a1 + a2)) - (a1 * (b1 + b2)));
+		yc = value_y / div_y;
+
+		// XC
+		// =
+		// {(-C1 -C2).[B1.(A1 +A2) -A1.(B1 +B2)]} - [(B1 +B2).(A1.C2 -A2.C1)]
+		// ------------------------------------------------------------------
+		// B1.(A1 + A2) - A1.(B1 + B2)
+		value_x = (-c1 - c2 - (b1 + b2) * yc);
+		div_x = (a1 + a2);
+		xc = value_x / div_x;
+
+		x1 = points[0].getX();
+		y1 = points[0].getY();
+		radius = (((x1 - xc) * (x1 - xc)) + ((y1 - yc) * (y1 - yc)));
+		radius = Math.sqrt(radius);
 
 		Point p = new Point();
 		p.setLocation(xc, yc);
-		return p;
+		return new Object[] { p, radius };
 	}
 
 	private static double[] getPerpendicular(Point a, Point b) {
@@ -178,31 +191,17 @@ public class HoughTransform {
 		double b1 = 0;
 		double c1 = 0;
 
-		// A1 = 2.x2 – 2.x1
-		a1 = 2 * x2 - 2 * x1;
+		// A1 = 2.(x2 – x1)
+		a1 = 2 * (x2 - x1);
 
-		// B1 = 2.y2 – 2.y1
-		b1 = 2 * y2 - 2 * y1;
+		// B1 = 2.(y2 – y1)
+		b1 = 2 * (y2 - y1);
 
 		// Q = SQUARE
 		// C1 = x1Q + y1Q – y2Q – x2Q
 		c1 = Math.pow(x1, 2) + Math.pow(y1, 2) - Math.pow(y2, 2)
 				- Math.pow(x2, 2);
-		// c1 = Math.sqrt(x1) + Math.sqrt(y1) - Math.sqrt(y2) - Math.sqrt(x2);
 
 		return new double[] { a1, b1, c1 };
-	}
-
-	private static double getDistance(Point center, Point border) {
-		double d = 0;
-		double x1 = center.getX();
-		double y1 = center.getY();
-		double x2 = border.getX();
-		double y2 = border.getY();
-
-		// Q = SQUARE
-		// D = root((X2 - X1)Q + (Y2 - Y1)Q)
-		d = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-		return d;
 	}
 }

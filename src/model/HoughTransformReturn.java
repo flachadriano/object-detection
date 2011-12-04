@@ -6,7 +6,7 @@ public class HoughTransformReturn {
 
 	private Point[] points;
 	private Point center;
-	private double distance;
+	private double radius;
 
 	public Point[] getPoints() {
 		return points;
@@ -24,12 +24,12 @@ public class HoughTransformReturn {
 		this.center = center;
 	}
 
-	public double getDistance() {
-		return distance;
+	public double getRadius() {
+		return radius;
 	}
 
-	public void setDistance(double distance) {
-		this.distance = distance;
+	public void setRadius(double distance) {
+		this.radius = distance;
 	}
 
 }
